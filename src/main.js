@@ -11,6 +11,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 // import 'font-awesome/css/font-awesome.min.css'
 import i18n from './i18n'
 
+import store from "./store"
 
 Vue.prototype.$axios = api
 Vue.config.productionTip = false
@@ -28,6 +29,7 @@ Vue.use(ElementUI);
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   i18n: i18n,
   template: '<App/>'
