@@ -309,7 +309,7 @@ export default {
       // bottom: 0px;
       // left: 200px;
       overflow-y: scroll;
-      padding: 20px;
+     // padding: 20px;
       .breadcrumb-container {
         //margin-bottom: 15px;
         .title {

@@ -4,7 +4,7 @@ const Main = ()=> import('@/views/common/main')
 const Login = ()=> import('@/views/common/login')
 const notFound = ()=> import('@/views/common/notFound')
 const index = ()=> import('@/views/index/index')
-
+const content = ()=> import('@/views/content/content');
 Vue.use(Router)
 
 const vueRouter = new Router({
@@ -25,6 +25,11 @@ const vueRouter = new Router({
           path: '/index',
           name: '首页',
           component: index,
+        },
+        {
+          path: '/',
+          name: '',
+          component: content,
         },
       ]
     },
