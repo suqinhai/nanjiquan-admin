@@ -45,6 +45,7 @@
         </template>
       </el-table-column>
     </tool-table>
+    <!--编辑-->
     <el-dialog title="岗位编辑" :visible.sync="dialogFormVisible" width="65%">
       <el-form label-width="120px">
         <el-form-item label="岗位有效期调整">
