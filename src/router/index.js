@@ -5,6 +5,12 @@ const Login = ()=> import('@/views/common/login')
 const notFound = ()=> import('@/views/common/notFound')
 const index = ()=> import('@/views/index/index')
 const content = ()=> import('@/views/content/content');
+const contentDetails = ()=> import('@/views/content/contentDetails');
+
+const project = ()=> import('@/views/project/project');
+const pbDetails = ()=> import('@/views/project/pbDetails');
+const resume = ()=> import('@/views/resume/resume');
+const resumeDetails = ()=> import('@/views/resume/resumeDetails');
 Vue.use(Router)
 
 const vueRouter = new Router({
@@ -27,10 +33,35 @@ const vueRouter = new Router({
           component: index,
         },
         {
-          path: '/',
+          path: '/content',
           name: '',
           component: content,
         },
+        {
+          path: '/contentDetails',
+          name: '',
+          component: contentDetails,
+        },
+        {
+          path: '/project',
+          name: '',
+          component: project,
+        },
+        {
+          path: '/pbDetails',
+          name: '',
+          component: pbDetails,
+        },
+        {
+          path: '/resume',
+          name: '',
+          component: resume,
+        },
+        {
+          path: '/',
+          name: '',
+          component: resumeDetails,
+        }
       ]
     },
     {

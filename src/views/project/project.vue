@@ -4,7 +4,7 @@
     <menu-header>
       <el-button class="addPost" slot="addPost" type="primary">投递详情</el-button>
     </menu-header>
-    <tool-table :tools="tools" :posturl="posturl" :selectData="selectData" @rankData="rankData">
+    <tool-table :tools="tools"  :posturl="posturl" :selectData="selectData" @rankData="rankData">
       <el-form-item label="项目名称" slot="select1">
           <el-input auto-complete="off" v-model="selectData.projectName" ></el-input>
       </el-form-item>
@@ -18,15 +18,15 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-table-column slot="edit" label="操作" width="180">
+      <el-table-column slot="edit" label="操作" width="200">
         <template slot-scope="scope">
           <el-button
             size="text"
-            @click="handleDetails(scope.$index, scope.row);"
+            @click="handleDetails(scope.$index, scope.row);dialogFormVisible=true;"
           >详情</el-button>
           <el-button
             size="text"
-            @click="handleDown(scope.$index, scope.row);"
+            @click="handleSee(scope.$index, scope.row);"
           >查阅情况</el-button>
           <el-button
             size="text"
@@ -37,58 +37,58 @@
     </tool-table>
    <!--详情-->
     <el-dialog title="查看详情" :visible.sync="dialogFormVisible" width="65%">
-      <el-form label-width="120px">
+      <el-form label-width="150px">
         <h3>基本信息</h3>
         <el-form-item label="联系人姓名：">
-          <el-input auto-complete="off"></el-input>
+          <el-input v-model="detailsData.project_username" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="联系人职位：">
-          <el-input auto-complete="off"></el-input>
+          <el-input v-model="detailsData.project_position" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="联系人手机：">
-          <el-input auto-complete="off"></el-input>
+          <el-input v-model="detailsData.project_mobile" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="联系人邮箱：">
-          <el-input auto-complete="off"></el-input>
+          <el-input v-model="detailsData.project_email" auto-complete="off"></el-input>
         </el-form-item>
         <h3>公司信息</h3>
         <el-form-item label="公司简称/产品名称：">
-          <el-input auto-complete="off"></el-input>
+          <el-input v-model="detailsData.project_name" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="公司LOGO">
-            <img src="">
+            <img class="" :src="detailsData.project_logo">
         </el-form-item>
         <el-form-item label="公司网址：">
-          <el-input auto-complete="off"></el-input>
+          <el-input v-model="detailsData.project_website" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="公司规模：">
-          <el-input auto-complete="off"></el-input>
+          <el-input v-model="detailsData.scale_name"  auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="行业领域：">
-          <el-input auto-complete="off"></el-input>
+          <el-input v-model="detailsData.field_name" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="成立时间：">
-          <el-input auto-complete="off"></el-input>
+        <el-form-item  label="成立时间：">
+          <el-input v-model="detailsData.project_start_time" auto-complete="off"></el-input>
         </el-form-item>
         <h3>项目情况</h3>
         <el-form-item label="融资次数：">
-          <el-input auto-complete="off"></el-input>
+          <el-input v-html="detailsData.project_financing_time" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="公司营业执照：">
-          <img src="">
+          <img :src="detailsData.project_licence">
         </el-form-item>
         <el-form-item label="商业计划书：">
-          <el-button type="primary">主要按钮</el-button>
+          <el-button @click="planDown(detailsData.pfile_url)" type="primary">点击下载</el-button>
         </el-form-item>
         <el-form-item label="项目简介：">
-          <el-input type="textarea" auto-complete="off"></el-input>
+          <el-input type="textarea" v-model="detailsData.project_introduction" auto-complete="off"></el-input>
         </el-form-item>
         <h3>融资需求</h3>
         <el-form-item label="融资金额：">
-            <el-input auto-complete="off"></el-input>
+            <el-input v-model="detailsData.project_need_financing" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="融资需求描述：">
-          <el-input type="textarea" auto-complete="off"></el-input>
+          <el-input v-model="detailsData.project_require_description" type="textarea" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -100,8 +100,7 @@
 </template>
 
 <script>
-//这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
-//例如：import 《组件名称》 from '《组件路径》';
+.0//例如：import 《组件名称》 from '《组件路径》';
 import Menuheader from "../assembly/Menuheader.vue";
 import Table from "../assembly/Table.vue";
 export default {
@@ -191,7 +190,8 @@ export default {
           "scale_name": "少于50人",                                              //公司规模
           "field_name": "先进制造行业",                                     //行业领域
           "pfile_url": "http://niukou.api.chengmikeji.com/upload/logo/84/3df60a42f7270b8fc2944d6f8fb2be.jpg"                                      //商业计划书
-      }
+      },
+      dialogFormVisible: false
 
     
     };
@@ -219,13 +219,14 @@ export default {
       //     console.log(err)
 
       // })
-      var obj = this.post_list.find(function(val) {
-        return val.post_id == that.editData.post_id;
-      });
-      this.editData.post_name = obj.post_name;
+      // var obj = this.field_list.find(function(val) {
+      //   return val.field_id == that.detailsData.field_id;
+      // });
+      // this.editData.field_name = obj.field_name;
     },
     handleDown(index, row) {
       console.log(index, row);
+      window.open(row.pfile_url)
     },
     rankData(data){
         var obj=[];
@@ -251,14 +252,14 @@ export default {
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
   
-    this.$axios.post("Project/listbefore").then(res => {
-          console.log(res)
-         if (!res.data.code) {
-            this.field_list=res.data.data.field_list;
-         }
-      }).catch(err=>{
-          console.log(err)
-      })
+    // this.$axios.post("Project/listbefore").then(res => {
+    //       console.log(res)
+    //      if (!res.data.code) {
+    //         this.field_list=res.data.data.field_list;
+    //      }
+    //   }).catch(err=>{
+    //       console.log(err)
+    //   })
   },
   beforeCreate() {}, //生命周期 - 创建之前
   beforeMount() {}, //生命周期 - 挂载之前
@@ -272,5 +273,7 @@ export default {
 <style lang='less' scoped>
 //@import url(); 引入公共css类
 .contentmanage {
+  h3{  margin: 30px 0 10px 0; padding-bottom: 5px; border-bottom: 1px  solid #eee;}
+  img{ width: 200px;}
 }
 </style>

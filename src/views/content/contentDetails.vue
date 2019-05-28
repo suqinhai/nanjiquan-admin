@@ -2,11 +2,11 @@
 <template>
   <div class="contentmanage">
     <menu-header>
-      <el-button class="addPost" slot="addPost" type="primary">投递详情</el-button>
+      
     </menu-header>
     <tool-table :tools="tools" :posturl="posturl" :selectData="selectData" @rankData="rankData">
       <el-form-item label="用户名搜索" slot="select3">
-        <el-input auto-complete="off" v-model="userName" :disabled="true"></el-input>
+        <el-input auto-complete="off" v-model="selectData.userName"></el-input>
       </el-form-item>
       <el-table-column slot="edit" label="操作" width="180">
         <template slot-scope="scope">
@@ -41,9 +41,7 @@ export default {
         "工作经验",
         "学历",
         "求职状态",
-        "投递时间",
-        "分享次数",
-        "发布日期"
+        "投递时间"
       ],
       posturl: "Userpost/deliveryRecording",
       selectData: {
@@ -76,13 +74,14 @@ export default {
       //     console.log(err)
 
       // })
-      var obj = this.post_list.find(function(val) {
-        return val.post_id == that.editData.post_id;
-      });
-      this.editData.post_name = obj.post_name;
+      // var obj = this.post_list.find(function(val) {
+      //   return val.post_id == that.editData.post_id;
+      // });
+      // this.editData.post_name = obj.post_name;
     },
     handleDown(index, row) {
       console.log(index, row);
+      window.open(row.annex_file);
     },
     rankData(data){
         var obj=[];
