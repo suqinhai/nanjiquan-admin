@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
         '/apis': {    //将www.exaple.com印射为/apis
-            target: '//niukou.shop.chengmikeji.com/my-shop-manager',  // 接口域名
+            target: 'https://niukou.api.chengmikeji.com/Web/',  // 接口域名
             changeOrigin: true,  //是否跨域
             pathRewrite: {
                 '^/apis': ''   //需要rewrite的,
@@ -22,7 +22,7 @@ module.exports = {
 
 
     // Various Dev Server settings
-    host: '192.168.31.222', // can be overwritten by process.env.HOST
+    host: '192.168.31.221', // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,

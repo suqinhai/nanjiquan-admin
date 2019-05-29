@@ -69,7 +69,7 @@
       <section class="content-container">
         <div class="grid-content bg-purple-light">
           <el-col :span="24" class="breadcrumb-container">
-            <strong class="title">{{$t( $route.name )}}</strong>
+            <!--<strong class="title">{{$t( $route.name )}}</strong>-->
             <!-- <el-breadcrumb separator="/" class="breadcrumb-inner">
               <el-breadcrumb-item v-for="item in $route.matched">
                 {{ item.name }}
@@ -309,7 +309,7 @@ export default {
       // bottom: 0px;
       // left: 200px;
       overflow-y: scroll;
-      padding: 20px;
+     // padding: 20px;
       .breadcrumb-container {
         //margin-bottom: 15px;
         .title {
