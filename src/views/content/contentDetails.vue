@@ -1,7 +1,7 @@
 <!--  -->
 <template>
   <div class="contentmanage">
-    <menu-header>
+    <menu-header :headerMenu="headerMenu">
       
     </menu-header>
     <tool-table :tools="tools" :posturl="posturl" :selectData="selectData" @rankData="rankData">
@@ -35,6 +35,13 @@ export default {
   data() {
     //这里存放数据
     return {
+    	headerMenu:{
+            name:"投递详情",
+            menuList:[
+	            {name:'岗位列表',path:"content"},
+	            {name:"投递详情",path:"contentDetails"}
+            ]
+      },
       tools: [
         "用户名",
         "期望薪资",
@@ -57,30 +64,7 @@ export default {
   watch: {},
   //方法集合
   methods: {
-    handleEdit(index, row) {
-      var that = this;
-      // this.$axios.post("Userpost/details",{upost_id:row.upost_id}).then(res => {
-      //    if (res.data.code) {
-      //        this.editData=res.data.data.detail;
-      //        this.salary_list=res.data.data.salary_list;
-      //        this.experience_list=res.data.data.experience_list;
-      //        this.education_list=res.data.data.education_list;
-      //        var obj=this.post_list.find(function (x) {
-      //             return x.post_id === this.editData.post_id
-      //         })
-      //         this.editData.post_name=obj.post_name
-      //     }
-      // }).catch(err=>{
-      //     console.log(err)
-
-      // })
-      // var obj = this.post_list.find(function(val) {
-      //   return val.post_id == that.editData.post_id;
-      // });
-      // this.editData.post_name = obj.post_name;
-    },
     handleDown(index, row) {
-      console.log(index, row);
       window.open(row.annex_file);
     },
     rankData(data){
@@ -89,6 +73,7 @@ export default {
          let obj1 = new Object();
            for (var item in val){
              obj1.resume_username=data[index].resume_username;
+             obj1.salary_value=data[index].salary_value;
              obj1.resume_work_time=data[index].resume_work_time;
              obj1.education_value=data[index].education_value;
              obj1.jobstatus_name=data[index].jobstatus_name;
@@ -103,17 +88,7 @@ export default {
   //生命周期 - 创建完成（可以访问当前this实例）
   created() {},
   //生命周期 - 挂载完成（可以访问DOM元素）
-  mounted() {
-    //   this.$axios.post("Userpost/listsbefore").then(res => {
-    //       console.log(res)
-    //     //  if (!res.data.code) {
-    //     //     this.industry_list=res.data.data.industry_list;
-    //     //     this.post_list=res.data.data.post_list;
-    //     //  }
-    //   }).catch(err=>{
-    //       console.log(err)
-    //   })
-  },
+  mounted() { },
   beforeCreate() {}, //生命周期 - 创建之前
   beforeMount() {}, //生命周期 - 挂载之前
   beforeUpdate() {}, //生命周期 - 更新之前

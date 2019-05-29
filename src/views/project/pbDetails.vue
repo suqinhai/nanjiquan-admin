@@ -2,7 +2,7 @@
 <template>
   <div class="contentmanage">
     <!--头部组件和插槽-->
-    <menu-header>
+    <menu-header :headerMenu="headerMenu">
     </menu-header>
     <!--表格组件和插槽-->
     <tool-table :tools="tools" :selectRiqi="selectRiqi" :posturl="posturl" :selectData="selectData" @rankData="rankData">
@@ -108,6 +108,13 @@ export default {
   data() {
     //这里存放数据
     return {
+    	headerMenu:{
+            name:"查阅情况",
+            menuList:[
+            	{name:'项目列表',path:"project"},
+            	{name:'查阅情况',path:"pbDetails"}
+            ]
+      },
       tools: [
         "用户昵称",
         "账号",
@@ -122,7 +129,7 @@ export default {
           start_time:"",
           end_time:"",
           invest_name:"",
-          project_id:this.$route.query.id
+          project_id:this.$route.query.project_id
       },
       selectRiqi:true,
       pickerOptions1: {
@@ -184,44 +191,24 @@ export default {
   watch: {},
   //方法集合
   methods: {
-    handleEdit(index, row) {
-      var that = this;
-      // this.$axios.post("Userpost/details",{upost_id:row.upost_id}).then(res => {
-      //    if (res.data.code) {
-      //        this.editData=res.data.data.detail;
-      //        this.salary_list=res.data.data.salary_list;
-      //        this.experience_list=res.data.data.experience_list;
-      //        this.education_list=res.data.data.education_list;
-      //        var obj=this.post_list.find(function (x) {
-      //             return x.post_id === this.editData.post_id
-      //         })
-      //         this.editData.post_name=obj.post_name
-      //     }
-      // }).catch(err=>{
-      //     console.log(err)
-
-      // })
-      // var obj = this.post_list.find(function(val) {
-      //   return val.post_id == that.editData.post_id;
-      // });
-      // this.editData.post_name = obj.post_name;
-    },
+  	//查看机构详情
     handleDetails(index, row) {
       console.log(index, row);
       var that=this;
-      // this.$axios.post("Project/showInvestmentDetail",{apply_id:row.invest_id}).then(res => {
-      //    if (res.data.code==1) {
-      //       that.detailsData=res.data.data;
-      //    }
-      // }).catch(err=>{
-      //      console.log(err)
-      //  })
+      this.$axios.post("Project/showInvestmentDetail",{apply_id:row.invest_id}).then(res => {
+        if (res.data.code==1) {
+           that.detailsData=res.data.data;
+        }
+      }).catch(err=>{
+          console.log(err)
+      })
     },
     rankData(data){
         var obj=[];
         obj=data.map((val,index,data)=>{
          let obj1 = new Object();
            for (var item in val){
+           	 obj1.invest_id=data[index].invest_id;
              obj1.user_nickname=data[index].user_nickname;
              obj1.invest_mobile=data[index].invest_mobile;
              obj1.invest_name=data[index].invest_name;
@@ -237,17 +224,7 @@ export default {
   //生命周期 - 创建完成（可以访问当前this实例）
   created() {},
   //生命周期 - 挂载完成（可以访问DOM元素）
-  mounted() {
-    //   this.$axios.post("Userpost/listsbefore").then(res => {
-    //       console.log(res)
-    //     //  if (!res.data.code) {
-    //     //     this.industry_list=res.data.data.industry_list;
-    //     //     this.post_list=res.data.data.post_list;
-    //     //  }
-    //   }).catch(err=>{
-    //       console.log(err)
-    //   })
-  },
+  mounted() {},
   beforeCreate() {}, //生命周期 - 创建之前
   beforeMount() {}, //生命周期 - 挂载之前
   beforeUpdate() {}, //生命周期 - 更新之前

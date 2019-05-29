@@ -1,10 +1,10 @@
 <!--  -->
 <template>
   <div class="contentmanage">
-    <menu-header>
+    <menu-header :headerMenu="headerMenu">
       <el-button class="addPost" slot="addPost" type="primary">新建岗位</el-button>
     </menu-header>
-    <tool-table :tools="tools" :posturl="posturl" :selectData="selectData">
+    <tool-table :tools="tools" :posturl="posturl" :selectData="selectData" @rankData="rankData">
       <el-form-item label="所属行业" slot="select1">
         <el-select v-model="selectData.industry_id" placeholder="全部">
           <el-option
@@ -52,12 +52,14 @@
           <el-date-picker
             align="right"
             type="date"
+            v-model="editData.upost_addtime"
             placeholder="开始日期"
             :picker-options="pickerOptions1"
           ></el-date-picker>
           <el-date-picker
             align="right"
             type="date"
+            v-model="editData.effective_end_time"
             placeholder="结束日期"
             :picker-options="pickerOptions1"
           ></el-date-picker>
@@ -147,17 +149,23 @@ export default {
   data() {
     //这里存放数据
     return {
+    	headerMenu:{
+            name:"岗位列表",
+            menuList:[{name:'内容管理',path:""},{name:'岗位列表',path:"content"}]
+      },
       tools: [
         "所属行业",
         "岗位名称",
         "所属公司",
         "发布日期",
+        "有效时间",
         "浏览次数",
         "投递次数",
         "分享次数",
         "岗位状态"
       ],
       posturl: "Userpost/lists",
+      //所属行业
       industry_list: [
         {
           industry_id: 1,
@@ -196,6 +204,7 @@ export default {
           industry_name: "房地产"
         }
       ],
+      //岗位筛选
       post_list: [
         {
           post_id: 51,
@@ -402,6 +411,7 @@ export default {
           post_name: "技术开发"
         }
       ],
+      //岗位状态
       status_list: [
         {
           status_id: 1,
@@ -416,11 +426,13 @@ export default {
           status_name: "已过期"
         }
       ],
+      //请求表格数据所需要的参数
       selectData: {
           industry_id:"",
           post_id:"",
           status:""
       },
+      //日期选择
       pickerOptions1: {
         disabledDate(time) {
           return time.getTime() > Date.now();
@@ -832,44 +844,46 @@ export default {
   watch: {},
   //方法集合
   methods: {
+  	//编辑
     handleEdit(index, row) {
       var that = this;
-      // this.$axios.post("Userpost/details",{upost_id:row.upost_id}).then(res => {
-      //    if (res.data.code) {
-      //        this.editData=res.data.data.detail;
-      //        this.salary_list=res.data.data.salary_list;
-      //        this.experience_list=res.data.data.experience_list;
-      //        this.education_list=res.data.data.education_list;
-      //        var obj=this.post_list.find(function (x) {
-      //             return x.post_id === this.editData.post_id
-      //         })
-      //         this.editData.post_name=obj.post_name
-      //     }
-      // }).catch(err=>{
-      //     console.log(err)
-
-      // })
+		  this.$axios.post("Userpost/details",{upost_id:row.upost_id}).then(res => {
+		        if (res.data.code==1) {
+		            this.editData=res.data.data.detail;
+		            this.salary_list=res.data.data.salary_list;
+		            this.experience_list=res.data.data.experience_list;
+		            this.education_list=res.data.data.education_list;
+		            var obj=this.post_list.find(function (x) {
+		                 return x.post_id === this.editData.post_id
+		            })
+		            this.editData.post_name=obj.post_name
+		         }
+		   }).catch(err=>{
+		         console.log(err)
+		   })
       var obj = this.post_list.find(function(val) {
         return val.post_id == that.editData.post_id;
       });
       this.editData.post_name = obj.post_name;
+      this.editData.upost_addtime=row.upost_addtime;
+      this.editData.effective_end_time=row.effective_end_time;
     },
+    //跳转
     handleDetails(index, row) {
-      console.log(index, row);
-      //this.$router.push({ path:'/contentDetails',query:{upost_id: upost_id}});
+      this.$router.push({ path:'/contentDetails',query:{upost_id: row.upost_id}});
     },
     choseProvince(e) {
         var that=this;
       this.$axios.post("Userpost/getCity",{province_id:e}).then(res => {
-          if (res.data.code) {
+          if (res.data.code==1) {
             that.city_list=res.data.data;
           }
       });
     },
     choseCtiy(e) {
-        var that=this;
+      var that=this;
       this.$axios.post("Userpost/getDistrict",{city_id:e}).then(res => {
-          if (res.data.code) {
+          if (res.data.code==1) {
             that.district_list=res.data.data;
           }
       });
@@ -879,10 +893,12 @@ export default {
         obj=data.map((val,index,data)=>{
          let obj1 = new Object();
            for (var item in val){
+           	 obj1.upost_id=data[index].upost_id;
              obj1.industry_name=data[index].industry_name;
              obj1.post_name=data[index].post_name;
              obj1.company_name=data[index].company_name;
              obj1.upost_addtime=data[index].upost_addtime;
+             obj1.effective_end_time=data[index].effective_end_time;
              obj1.upost_view=data[index].upost_view;
              obj1.upost_delivery=data[index].upost_delivery;
              obj1.upost_share=data[index].upost_share;
@@ -897,15 +913,18 @@ export default {
   created() {},
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
-    //   this.$axios.post("Userpost/listsbefore").then(res => {
-    //       console.log(res)
-    //     //  if (!res.data.code) {
-    //     //     this.industry_list=res.data.data.industry_list;
-    //     //     this.post_list=res.data.data.post_list;
-    //     //  }
-    //   }).catch(err=>{
-    //       console.log(err)
-    //   })
+  	//岗位管理-岗位列表-下拉列表
+    this.$axios.post("Userpost/listsbefore").then(res => {
+         console.log(res)
+           if (res.data.code==1) {
+           		//所属行业
+              this.industry_list=res.data.data.industry_list;
+              //岗位筛选
+              this.post_list=res.data.data.post_list;
+           }
+    }).catch(err=>{
+         console.log(err)
+    })
   },
   beforeCreate() {}, //生命周期 - 创建之前
   beforeMount() {}, //生命周期 - 挂载之前

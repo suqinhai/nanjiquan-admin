@@ -4,13 +4,16 @@ const Main = ()=> import('@/views/common/main')
 const Login = ()=> import('@/views/common/login')
 const notFound = ()=> import('@/views/common/notFound')
 const index = ()=> import('@/views/index/index')
+//内容管理
 const content = ()=> import('@/views/content/content');
 const contentDetails = ()=> import('@/views/content/contentDetails');
-
 const project = ()=> import('@/views/project/project');
 const pbDetails = ()=> import('@/views/project/pbDetails');
 const resume = ()=> import('@/views/resume/resume');
 const resumeDetails = ()=> import('@/views/resume/resumeDetails');
+const agreement = ()=> import('@/views/agreement/agreement');
+//广告管理
+const advertisement = () => import('@/views/advertisement/advertisement');
 Vue.use(Router)
 
 const vueRouter = new Router({
@@ -34,33 +37,44 @@ const vueRouter = new Router({
         },
         {
           path: '/content',
-          name: '',
+          name: '岗位列表',
           component: content,
         },
         {
           path: '/contentDetails',
-          name: '',
+          name: '投递详情',
           component: contentDetails,
         },
         {
           path: '/project',
-          name: '',
+          name: '项目列表',
           component: project,
         },
         {
           path: '/pbDetails',
-          name: '',
+          name: '查阅情况',
           component: pbDetails,
         },
         {
           path: '/resume',
-          name: '',
+          name: '简历列表',
           component: resume,
         },
         {
-          path: '/',
-          name: '',
+          path: '/resumeDetails',
+          name: '查看简历',
           component: resumeDetails,
+        },
+        {
+          path: '/agreement',
+          name: '协议管理',
+          component: agreement,
+        }
+        ,
+        {
+          path: '/',
+          name: '广告列表',
+          component: advertisement,
         }
       ]
     },

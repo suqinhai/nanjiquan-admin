@@ -1,7 +1,7 @@
 <!--  -->
 <template>
   <div class="contentmanage">
-    <menu-header>
+    <menu-header :headerMenu="headerMenu">
       <el-button class="addPost" slot="addPost" type="primary">投递详情</el-button>
     </menu-header>
     <tool-table :tools="tools"  :posturl="posturl" :selectData="selectData" @rankData="rankData">
@@ -100,7 +100,7 @@
 </template>
 
 <script>
-.0//例如：import 《组件名称》 from '《组件路径》';
+//例如：import 《组件名称》 from '《组件路径》';
 import Menuheader from "../assembly/Menuheader.vue";
 import Table from "../assembly/Table.vue";
 export default {
@@ -112,11 +112,17 @@ export default {
   data() {
     //这里存放数据
     return {
+    	headerMenu:{
+            name:"项目列表",
+            menuList:[
+            	{name:'项目列表',path:"project"}
+            ]
+      },
       tools: [
         "公司简称/项目名称",
         "行业领域",
         "项目简介",
-        //"联系人",
+        "联系人",
         "联系人职位",
         "联系方式",
         "浏览次数",
@@ -169,7 +175,7 @@ export default {
                 "field_name": "未来汽车行业"
             }
         ],
-        detailsData: {
+      detailsData: {
           "project_username": "黄某某",                                  //联系人姓名
           "project_position": "我是职位",                                 //联系人职位
           "project_mobile": "13434343666",                                //联系人手机
@@ -204,38 +210,32 @@ export default {
   methods: {
     handleDetails(index, row) {
       var that = this;
-      // this.$axios.post("Userpost/details",{upost_id:row.upost_id}).then(res => {
-      //    if (res.data.code) {
-      //        this.editData=res.data.data.detail;
-      //        this.salary_list=res.data.data.salary_list;
-      //        this.experience_list=res.data.data.experience_list;
-      //        this.education_list=res.data.data.education_list;
-      //        var obj=this.post_list.find(function (x) {
-      //             return x.post_id === this.editData.post_id
-      //         })
-      //         this.editData.post_name=obj.post_name
-      //     }
-      // }).catch(err=>{
-      //     console.log(err)
-
-      // })
-      // var obj = this.field_list.find(function(val) {
-      //   return val.field_id == that.detailsData.field_id;
-      // });
-      // this.editData.field_name = obj.field_name;
+		  this.$axios.post("Project/details",{project_id:row.upost_id}).then(res => {
+		    if (res.data.code==1) {
+		       that.detailsData=res.data.data;
+		     }
+		  }).catch(err=>{
+		     console.log(err)
+		
+		  })
     },
     handleDown(index, row) {
       console.log(index, row);
       window.open(row.pfile_url)
+    },
+    handleSee(index, row){
+    	this.$router.push({ path:'/pbDetails',query:{project_id: row.project_id}});
     },
     rankData(data){
         var obj=[];
         obj=data.map((val,index,data)=>{
          let obj1 = new Object();
            for (var item in val){
+           	 obj1.project_id=data[index].project_id;
              obj1.project_name=data[index].project_name;
              obj1.field_name=data[index].field_name;
              obj1.project_introduction=data[index].project_introduction;
+             obj1.project_username=data[index].project_username;
              obj1.project_position=data[index].project_position;
              obj1.project_mobile=data[index].project_mobile;
              obj1.project_view=data[index].project_view;
@@ -251,15 +251,14 @@ export default {
   created() {},
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
-  
-    // this.$axios.post("Project/listbefore").then(res => {
-    //       console.log(res)
-    //      if (!res.data.code) {
-    //         this.field_list=res.data.data.field_list;
-    //      }
-    //   }).catch(err=>{
-    //       console.log(err)
-    //   })
+    this.$axios.post("Project/listbefore").then(res => {
+         console.log(res)
+        if (res.data.code==1) {
+           this.field_list=res.data.data.field_list;
+        }
+    }).catch(err=>{
+         console.log(err)
+    })
   },
   beforeCreate() {}, //生命周期 - 创建之前
   beforeMount() {}, //生命周期 - 挂载之前

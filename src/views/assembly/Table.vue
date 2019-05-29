@@ -22,6 +22,7 @@
         </el-row>
       </el-form>
     </div>
+    <slot name="selectTotals"></slot>
     <el-table
       ref="multipleTable"
       :data="tableData3"
@@ -44,8 +45,8 @@
       </template>
       <slot name="edit"></slot>
     </el-table>
-    <div class="page">
-      <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :total="1000"></el-pagination>
+    <div class="page" v-if="pagetotal">
+      <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :total="pagetotal"></el-pagination>
     </div>
   </div>
 </template>
@@ -70,34 +71,30 @@ export default {
       ],
       tableData3:[],
       multipleSelection: [],
-      colConfigs: []
+      colConfigs: [],
+      pagetotal:0
     };
   },
   mounted() {
-   console.log(this.selectRiqi)
     this.tableData3=this.$parent.rankData(this.tableData2);
     for (let val in this.tableData3[0]) {
       if (val.indexOf("id") < 0) {
         this.colConfigs.push(val);
       }
     }
-    // this.$axios.post(this.posturl,{page:1}).then(res => {
-    //       console.log(res)
-    //      if (!res.data.code) {
-    //         
-    //      }
-    //   }).catch(err=>{
-    //       console.log(err)
-    //   })
+    //第一页
+    //getPageData(1)
   },
   methods: {
+  	//表格数据
     getPageData(id) {
       var that = this;
       this.$axios
-        .post(that.posturl, { page: 1, ...that.selectData })
+        .post(that.posturl, { page: id, ...that.selectData })
         .then(res => {
-          if (!res.data.code) {
+          if (res.data.code==1) {
             that.tableData3=that.$parent.rankData(res.data.data.data);
+            that.pagetotal=res.data.data.total
           }
         })
         .catch(err => {
@@ -113,15 +110,20 @@ export default {
         this.$refs.multipleTable.clearSelection();
       }
     },
+    //全选
     handleSelectionChange(val) {
+    	console.log(val)
       this.multipleSelection = val;
     },
+    //分页
     handleCurrentChange(val) {
       this.getPageData(id);
     },
+    //查询
     selectPost() {
       this.getPageData(1);
     },
+    //重置
     resetPost() {
       for (let val in this.selectData) {
         this.selectData[val] = "";

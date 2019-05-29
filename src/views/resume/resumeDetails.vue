@@ -97,6 +97,12 @@ export default {
   data() {
     //这里存放数据
     return {
+    	headerMenu:{
+            name:"简历列表",
+            menuList:[
+            	{name:'简历列表',path:"resume"}
+            ]
+      },
         detail:{
             "username": "黄小又",                                          //姓名
             "jobstatus_id": 1,                                              //求职状态

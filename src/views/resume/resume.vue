@@ -40,7 +40,7 @@
             <div class="item" v-for="(item,value) in resume_list">
               <el-row>
                 <el-col :span="18">
-                  <div class="title" v-html="item.title"></div>
+                  <div class="title" v-html="item.annex_name"></div>
                   <div class="time" v-html="item.addtime"></div>
                 </el-col>
                 <el-col :span="6">
@@ -66,6 +66,13 @@ export default {
   data() {
     //这里存放数据
     return {
+    	headerMenu:{
+            name:"简历列表",
+            menuList:[
+              {name:'简历列表',path:"resume"},
+            	{name:'简历详情',path:"resumeDetails"}
+            ]
+      },
       tools: [
         "用户名",
         "名称",
@@ -330,7 +337,7 @@ export default {
       resume_list: [
           {
               annex_id: 1,
-              title:"第一个",
+              annex_name:"第一个",
               annex_file: "http://niukou.api.chengmikeji.com/upload/logo/d4/a4d77cecee3c762cad1c9b08853a61.jpg",
               addtime: "1970-01-01 08:00"
           }
@@ -344,18 +351,18 @@ export default {
   //方法集合
   methods: {
     handleDetails(index, row) {
-      var that = this;
+      this.$router.push({ path:'/contentDetails',query:{resume_id: row.resume_id}});
     },
     handleDown(index, row) {
       console.log(index, row);
       var that=this;
-      // this.$axios.post("Userpost/listsbefore",{resume_id:row.resume_id}).then(res => {
-      //   if(res.data.code==1){
-      //       that.resume_list=res.data.data;
-      //   }
-      // }).catch(err=>{
+      this.$axios.post("Userpost/listsbefore",{resume_id:row.resume_id}).then(res => {
+	      if(res.data.code==1){
+	           that.resume_list=res.data.data;
+	      }
+      }).catch(err=>{
 
-      // });
+       });
     },
     downLoad(url){
       window.open(url);
@@ -365,6 +372,7 @@ export default {
       obj = data.map((val, index, data) => {
         let obj1 = new Object();
         for (var item in val) {
+        	obj1.resume_id = data[index].resume_id;
           obj1.resume_username = data[index].resume_username;
           obj1.resume_name = data[index].resume_name;
           obj1.industry_name = data[index].industry_name;
@@ -382,14 +390,17 @@ export default {
   created() {},
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
-    // this.$axios.post("Userpost/listsbefore").then(res => {
-    //       console.log(res)
-    //      if (!res.data.code) {
-    //         this.field_list=res.data.data.field_list;
-    //      }
-    //   }).catch(err=>{
-    //       console.log(err)
-    //   })
+   this.$axios.post("Userpost/listsbefore").then(res => {
+         console.log(res)
+        if (res.data.code==1) {
+          //所属行业
+          this.industry_list=res.data.data.industry_list;
+          //岗位筛选
+          this.post_list=res.data.data.post_list;
+        }
+     }).catch(err=>{
+         console.log(err)
+     })
   },
   beforeCreate() {}, //生命周期 - 创建之前
   beforeMount() {}, //生命周期 - 挂载之前

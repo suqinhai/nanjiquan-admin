@@ -2,12 +2,13 @@
 <template>
   <div class="menuheader">
     <div class="menu-left menu-child">
-      <el-breadcrumb class="secondary" separator="/">
-          <template v-for="(item,index) in menu.menuList">
-            <el-breadcrumb-item>{{item}}</el-breadcrumb-item>
+      <el-breadcrumb class="secondary" v-if="headerMenu.menuList.length>0" separator="/">
+          <template v-for="(item,index) in headerMenu.menuList">
+            <el-breadcrumb-item v-if="index==0&&headerMenu.menuList.length>2" :to="{path: item.path }">{{item.name}}</el-breadcrumb-item>
+            <el-breadcrumb-item v-else>{{item.name}}</el-breadcrumb-item>
           </template>
       </el-breadcrumb>
-      <h3 class="title" v-html="menu.name"></h3>
+      <h3 class="title" v-html="headerMenu.name"></h3>
     </div>
     <div class="menu-right menu-child">
       <slot name="addPost"></slot>
@@ -20,18 +21,13 @@
 //例如：import 《组件名称》 from '《组件路径》';
 
 export default {
-//   props:{
-//       info:data
-//   },
+   props:["headerMenu"],
   //import引入的组件需要注入到对象中才能使用
   name:"Menuheader",
   data() {
     //这里存放数据
     return {
-        menu:{
-            name:"岗位列表",
-            menuList:['一级菜单','一级菜单','一级菜单']
-        }
+        
     };
   },
   //监听属性 类似于data概念
@@ -63,7 +59,7 @@ export default {
     .menu-child{
       flex: 1;
       .secondary{
-          margin-bottom: 15px;
+          margin-bottom: 25px;
       }
     }
     .menu-right{
