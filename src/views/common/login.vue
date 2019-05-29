@@ -126,16 +126,17 @@ export default {
           this.$axios.post(url, data).then(res => {
             this.logining = false;
 
-            if (!res.data.code) {
+            if (res.data.code==1) {
               if (this.checked == true) {
                 data.checked = true;
                 window.localStorage.setItem("userinfo", JSON.stringify(data));
               }
-              window.localStorage.setItem("token", res.data.data.token);
-              window.localStorage.setItem(
-                "adminInfo",
-                JSON.stringify(res.data.data)
-              );
+              console.log(res)
+              window.localStorage.setItem("token", res.data.data.detail.token);
+              // window.localStorage.setItem(
+              //   "adminInfo",
+              //   JSON.stringify(res.data.data)
+              // );
               this.$router.push("/index");
             }
           });
