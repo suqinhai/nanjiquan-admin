@@ -1,11 +1,9 @@
 <template>
   <div>
-    
-    <h4>南极圈认证</h4>
+    <h4>服务商认证</h4>
 
     <div class="conBox">
       <el-form :inline="true" :model="formInline" class="demo-form-inline">
-
         <el-form-item label="提交时间">
           <el-select v-model="formInline.regionTime" placeholder="请选择起止注册时间">
             <el-option label="区域一" value="shanghai"></el-option>
@@ -32,24 +30,19 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="nanjiquan_id" label="ID" width="55"></el-table-column>
-       <el-table-column prop="nanjiquan_avatar" label="头像">
+        <el-table-column prop label="公司全称" width="55"></el-table-column>
+        <el-table-column prop label="所属行业"></el-table-column>
+        <el-table-column prop label="产品所属分类"></el-table-column>
+        <el-table-column prop="shop_realname" label="联系人姓名"></el-table-column>
+        <el-table-column prop="shop_mobile" label="联系人手机号" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="shop_mobile" label="联系人微信号" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="shop_status" label="认证状态" show-overflow-tooltip>
           <template slot-scope="scope">
-              <p v-if="scope.row.nanjiquan_avatar"><img width="44px;" :src=scope.row.nanjiquan_avatar alt=""></p>
+            <p v-if="scope.row.shop_status==-1">审核不通过</p>
+            <p v-if="scope.row.shop_status==0">待审核</p>
+            <p v-if="scope.row.shop_status==1">审核通过</p>
+            <p v-if="scope.row.shop_status==2">进行中</p>
           </template>
-       </el-table-column>
-        <el-table-column prop="nanjiquan_name" label="姓名"></el-table-column>
-        <el-table-column prop="nanjiquan_rtx" label="RTX"></el-table-column>
-        <el-table-column prop="nanjiquan_mobile" label="手机" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="addtime" label="提交时间" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="verify_time" label="处理时间" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="nanjiquan_status" label="认证状态" show-overflow-tooltip>
-            <template slot-scope="scope">
-                <p v-if="scope.row.nanjiquan_status==-1">审核不通过</p>
-                <p v-if="scope.row.nanjiquan_status==0">待审核</p>
-                <p v-if="scope.row.nanjiquan_status==1">审核通过</p>
-                <p v-if="scope.row.nanjiquan_status==2">进行中</p>
-            </template>
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
@@ -75,15 +68,13 @@ export default {
       },
       tableData6: [
         {
-                "nanjiquan_avatar": "http://niukou.api.chengmikeji.com/upload/logo/84/3df60a42f7270b8fc2944d6f8fb2be.jpg",          //头像
-                "nanjiquan_name": "黄小又",                                                    //姓名
-                "nanjiquan_rtx": "2342342",                                                     //RTX
-                "nanjiquan_mobile": "110110110000",                                             //手机号
-                "nanjiquan_status": 1,                                                          //0待审核;1审核通过;2进行中;-1审核未通过
-                "verify_time": "",                                                              //认证通过时间
-                "addtime": "2019-04-17 16:33"                                                   //添加时间
-            },
-        
+          shop_realname: "dylan", //联系人姓名
+          shop_mobile: "17304400269", //账号/联系人手机号
+          shop_compnay_name: "22", //公司全称
+          shop_status: 1, //1审核通过;2待审核;3审核不通过
+          shop_verify_time: "", //处理时间
+          shop_addtime: "2019-04-29 18:43" //提交时间
+        }
       ]
     };
   },

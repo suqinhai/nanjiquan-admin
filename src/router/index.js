@@ -21,6 +21,12 @@ const nanjiquanapplyverify=()=>import('@/views/apply/nanjiquanapply/verify')
 const investmentapplyverifylists=()=>import('@/views/apply/investmentapply/index')
 const investmentapplyverifydetails=()=>import('@/views/apply/investmentapply/details')
 const investmentapplyverify=()=>import('@/views/apply/investmentapply/verify')
+const recruiterappverifylists=()=>import('@/views/apply/recruiterapp/index')
+const recruiterappverifydetails=()=>import('@/views/apply/recruiterapp/details')
+const recruiterappverify=()=>import('@/views/apply/recruiterapp/verify')
+const Shopapplyverifylists=()=>import('@/views/apply/Shopapply/index')
+const Shopapplyverifydetails=()=>import('@/views/apply/Shopapply/details')
+const Shopapplyverify=()=>import('@/views/apply/Shopapply/verify')
 
 
 
@@ -117,8 +123,31 @@ const vueRouter = new Router({
           path:"/investmentapply/verify",
           name:'',
           component:investmentapplyverify,
-        },
-        {
+        },{
+          path:"/recruiterapp/verifylists",
+          name:'',
+          component:recruiterappverifylists,
+        },{
+          path:"/recruiterapp/verifydetails",
+          name:'',
+          component:recruiterappverifydetails,
+        },{
+          path:"/recruiterapp/verify",
+          name:'',
+          component:recruiterappverify,
+        },{
+          path:"/Shopapply/verifylists",
+          name:'',
+          component:Shopapplyverifylists,
+        },{
+          path:"/Shopapply/verifydetails",
+          name:'',
+          component:Shopapplyverifydetails,
+        },{
+          path:"/Shopapply/verify",
+          name:'',
+          component:Shopapplyverify,
+        },{
           path: '/content',
           name: '岗位列表',
           component: content,

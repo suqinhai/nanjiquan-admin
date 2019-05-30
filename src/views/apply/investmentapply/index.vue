@@ -1,7 +1,7 @@
 <template>
   <div>
    
-    <h4>招聘者认证</h4>
+    <h4>投资机构认证</h4>
 
     <div class="conBox">
       <el-form :inline="true" :model="formInline" class="demo-form-inline">
@@ -33,12 +33,16 @@
       >
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column prop="invest_name" label="公司全称" width="55"></el-table-column>
-       <el-table-column prop="invest_avatar" label="所属行业"></el-table-column>
-        <el-table-column prop="invest_name" label="公司规模"></el-table-column>
-        <el-table-column prop="invest_rtx" label="联系人姓名"></el-table-column>
+       <el-table-column prop="field_name" label="所属行业"></el-table-column>
+        <el-table-column prop="stage_name" label="投资阶段"></el-table-column>
+        <el-table-column prop="invest_realname" label="联系人姓名"></el-table-column>
         <el-table-column prop="invest_mobile" label="联系人手机号" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="addtime" label="联系人微信号" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="invest_status" label="认证状态" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="invest_mobile" label="联系人微信号" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="invest_status" label="认证状态" show-overflow-tooltip>
+              <template slot-scope="scope">
+                    <p v-if="scope.row.invest_status=1">审核成功</p>
+              </template>
+        </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button size="mini" type="text" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
@@ -69,7 +73,10 @@ export default {
                 "invest_name": "软件产业基地1",                                           //公司全称
                 "user_bp_count": 3,                                                     //免费查看次数
                 "invest_status": 1,                                                     //1审核通过;2待审核;-1审核不通过
-                "user_showbp_money": 0.01                                               //超次数费用（元）
+                "user_showbp_money": 0.01,                                              //超次数费用（元）
+                "invest_wechat": "wacher",                                              //微信
+                "field_name": "先进制造行业",                                             //关注领域
+                "stage_name": "D轮融资"                                                    //投资阶段
             },
         
       ]

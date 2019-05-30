@@ -47,12 +47,13 @@
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button size="mini" type="text" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-            <el-button size="mini" type="text" @click="handleEdit(scope.$index, scope.row)">查看详情</el-button>
+            <el-button size="mini" type="text" @click="handleDetails(scope.$index, scope.row)">查看详情</el-button>
           </template>
         </el-table-column>
       </el-table>
-
-      <el-pagination background layout="prev, pager, next" :total="1000"></el-pagination>
+      <div class="page" v-if="pagetotal">
+          <el-pagination background layout="prev, pager, next" @current-change="handleCurrentChange" :total="pagetotal"></el-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -85,7 +86,13 @@ export default {
                 "addtime": "2019-04-16 16:33"                                                   //添加时间
           },
         
-      ]
+      ],
+        selectData:{
+          nickname:"",
+          reg_strart_time:"",	
+          reg_end_time:"",	
+          verify_status:""
+      },
     };
   },
   mounted(){
@@ -93,23 +100,45 @@ export default {
   }
   ,
   methods: {
+    //查询
     onSubmit() {
-      console.log("submit!");
+     this.page(1);
     },
+    //重置
     onReset() {
-      console.log("Reset");
+     for(let val in this.selectData){
+       this.selectData[val]="";
+     }
+     this.page(1);
     },
-    handleEdit(index, row) {
-      console.log(index, row);
+ 
+    //查看详情  跳转
+    handleDetails(index, row) {
+          this.$router.push({path:'/nanjiquanapply/details',query:{apply_id:row.id}})
     },
     handleDelete(index, row) {
       console.log(index, row);
     },
-    page(id){
-      this.$axios.post("User/lists", {page:id}).then(res => {
-      
-      }).catch(err=>{
 
+    //全选
+    handleSelectionChange(val){
+      console.log(val)
+      this.multipleSelection = val;
+    },
+
+
+    //表格数据
+    page(id){
+      var that = this;
+      this.$axios
+      .post("User/lists", {page:id, ...that.selectData})
+      .then(res => {
+        if(res.data.code==1){
+          that. tableData6=that.$parent.rankData(res.data.data.data);
+          that.pagetotal=res.data.data.total
+        }
+      }).catch(err=>{
+           console.log(err);
       });
     }
   }

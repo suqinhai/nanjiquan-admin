@@ -8,13 +8,13 @@
 
     <h4>认证详情</h4>
     <div class="box">
-      <P class="title">工单号:{{invest_no}}</P>
+      <P class="title">工单号:{{recruiter_no}}</P>
       <el-row :gutter="20">
         <el-col :span="4">
           <div class="grid-content bg-purple">
             <p class="nanjiquanapply">
               <span></span>
-              投资机构认证
+              招聘企业认证
             </p>
           </div>
         </el-col>
@@ -38,30 +38,30 @@
             <div class="grid-content bg-purple">
               头像：
               <span>
-                <img :src="invest_avater" alt>
+                <img :src="recruiter_avater" alt>
               </span>
             </div>
           </el-col>
           <el-col :span="6">
-            <div class="grid-content bg-purple">真实姓名：{{invest_realname}}</div>
+            <div class="grid-content bg-purple">真实姓名：{{recruiter_realname}}</div>
           </el-col>
           <el-col :span="6">
-            <div class="grid-content bg-purple">手机号：{{invest_mobile}}</div>
+            <div class="grid-content bg-purple">手机号：{{recruiter_mobile}}</div>
           </el-col>
           <el-col :span="6">
-            <div class="grid-content bg-purple">微信号：{{invest_wechat}}</div>
+            <div class="grid-content bg-purple">微信号：{{recruiter_wechat}}</div>
           </el-col>
         </el-row>
 
         <el-row :gutter="20">
           <el-col :span="6">
-            <div class="grid-content bg-purple">BP邮箱：{{invest_bpemail}}</div>
+            <div class="grid-content bg-purple">企业邮箱：{{recruiter_business_mailbox}}</div>
           </el-col>
           <el-col :span="6">
-            <div class="grid-content bg-purple">身份证号：{{identity_id}}</div>
+            <div class="grid-content bg-purple">身份证号：{{uid}}</div>
           </el-col>
           <el-col :span="6">
-            <div class="grid-content bg-purple">提交时间：{{invest_addtime}}</div>
+            <div class="grid-content bg-purple">提交时间：{{addtime}}</div>
           </el-col>
           <el-col :span="6">
             <div class="grid-content bg-purple">
@@ -75,10 +75,6 @@
             </div>
           </el-col>
         </el-row>
-
-        <el-row>
-          投资人身份:{{identity_name}}
-        </el-row>
       </div>
 
       <!-- 申请账号详细信息 -->
@@ -87,30 +83,29 @@
 
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="8">
-            <div class="grid-content bg-purple">机构全称:{{invest_name}}</div>
+            <div class="grid-content bg-purple">公司全称:{{recruiter_name}}</div>
           </el-col>
           <el-col :span="8">
             <div class="grid-content bg-purple-light">
-              公司logo:
-              <span>
-                <img :src="invest_logo" alt>
-              </span>
+             所属行业:{{industry_name}}
             </div>
           </el-col>
           <el-col :span="8">
-            <div class="grid-content bg-purple">企业法人:{{invest_corporate}}</div>
+            <div class="grid-content bg-purple">公司规模:
+             0-20人</div>
           </el-col>
         </el-row>
 
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="8">
-            <div class="grid-content bg-purple">公司地址:{{invest_company_address}}</div>
+            <div class="grid-content bg-purple">公司地址:{{recruiter_company_address}}</div>
           </el-col>
           <el-col :span="8">
-            <div class="grid-content bg-purple-light">关注领域:{{field_name}}</div>
+            <div class="grid-content bg-purple-light">公司logo:
+              <span><img :src=recruiter_company_logo alt=""></span></div>
           </el-col>
           <el-col :span="8">
-            <div class="grid-content bg-purple">投资阶段:{{stage_name}}</div>
+            <div class="grid-content bg-purple">企业法人:{{recruiter_corporate}}</div>
           </el-col>
         </el-row>
 
@@ -118,20 +113,19 @@
           <el-col :span="8">
             <div
               class="grid-content bg-purple"
-            >单笔投资:{{invest_single_min_investment}}万-{{invest_single_max_investment}}万</div>
+            >单笔投资:{{recruiter_single_min_recruiterment}}万-{{recruiter_single_max_recruiterment}}万</div>
           </el-col>
           <el-col :span="8">
-            <div class="grid-content bg-purple-light">常住城市:{{invest_permanent_city_name}}</div>
+            <div class="grid-content bg-purple-light">常住城市:{{recruiter_permanent_city_name}}</div>
           </el-col>
           <el-col :span="8"></el-col>
         </el-row>
 
-        <el-row>基金介绍:{{invest_introduction}}</el-row>
 
         <el-row>
           组织机构代码证照:
           <span>
-            <img :src="invest_card_licence" alt>
+            <img :src=recruiter_business_license alt>
           </span>
         </el-row>
       </div>
@@ -171,52 +165,45 @@
 export default {
   data() {
     return {
-      input: "",
-      invest_no: "", //工单号
-      uid: 1,
-      invest_avater:
-        "https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoJroUyib201UTZaQtFyYiafgdYpbV1qZIQmcuoLgxrhTDOHh5zNFZ1E1TPib1QQ2zbL7IlTRcVKfXPw/132", //头像
-      invest_realname: "黄某某", //真实姓名
-      invest_mobile: "18476116867", //手机号
-      invest_wechat: "xiaoyou", //微信号
-      invest_bpemail: "vip@qq.com", //BP邮箱
-      identity_id: 1,
-      invest_personal_business_card: "http://niukou.api.chengmikeji.com/1", //个人名片
-      invest_name: "软件产业基地1", //机构名称
-      invest_company_address: "1", //公司地址
-      invest_logo:
-        "http://niukou.api.chengmikeji.com/upload/logo/84/3df60a42f7270b8fc2944d6f8fb2be.jpg", //机构logo
-      invest_corporate: "黄某某", //公司法人
-      invest_card_licence:
-        "http://niukou.api.chengmikeji.com/upload/licence/84/3df60a42f7270b8fc2944d6f8fb2be.jpg", //组织机构代码证照
-      invest_introduction: "我是介绍", //基金介绍
-      field_id: "1,2,3",
-      stage_id: "1",
-      invest_single_min_investment: "100.00", //单笔最低投资金额
-      invest_single_max_investment: "200.00", //单笔最高投资金额
-      invest_permanent_city: 110100, //
-      invest_permanent_city_name: "北京市", //常驻城市
-      invest_status: 1, //0草稿;1审核通过;2待审核;-1审核不通过
-      invest_verify_time: 0, //处理时间
-      invest_addtime: "2019-04-04", //添加日期
-      user_front_idcard:
-        "http://niukou.api.chengmikeji.com/upload/icard/84/3df60a42f7270b8fc2944d6f8fb2be.jpg", //身份证正方面
-      user_reverse_idcard:
-        "http://niukou.api.chengmikeji.com/upload/icard/84/3df60a42f7270b8fc2944d6f8fb2be.jpg", //身份证反方面
-      user_bp_count: 3, //查看BP次数
-      user_showbp_money: 0.01, //超过免费次数后每次需要支付金额
-      identity_name: "个人", //投资人身份
-      field_name: "先进制造行业,先进制造行业", //关注领域
-      stage_name: "种子轮", //投资阶段
-      log_list: [
-        {
-          log_status: 1,
-          log_no: "",
-          log_remark: "",
-          log_addtime: "2019-05-06 09:25",
-          admin_nickname: "admin"
-        }
-      ]
+        "uid": 1,
+        "recruiter_no": "",                                                 //流水号
+        "recruiter_avater": "https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoJroUyib201UTZaQtFyYiafgdYpbV1qZIQmcuoLgxrhTDOHh5zNFZ1E1TPib1QQ2zbL7IlTRcVKfXPw/132",                                                               //头像
+        "recruiter_realname": "黄某某",                                                //姓名
+        "recruiter_mobile": "18476116867",                                              //手机号
+        "recruiter_wechat": "xiaoyou",                                                  //微信
+        "recruiter_business_mailbox": "vip@qq.com",                                     //邮箱
+        "industry_id": 1,
+        "post_id": 1,
+        "recruiter_address": "软件产业基地1",                                         //地址
+        "recruiter_address_detail": "0",
+        "education_id": 1,
+        "salary_id": 1,
+        "recruiter_position_detail": "我要人人人人人",                                 //职位详情
+        "recruiter_skill": "1,2,3",
+        "recruiter_company_name": "那个公司有限公司",                                   //公司全称
+        "recruiter_company_industry_id": 2,
+        "recruiter_company_scale": 2,
+        "stage_id": 1,
+        "situation_id": 1,
+        "recruiter_company_address": "南山区某个大厦",
+        "recruiter_company_logo": "http://niukou.api.chengmikeji.com/upload/logo/84/3df60a42f7270b8fc2944d6f8fb2be.jpg",                                            //logo
+        "recruiter_corporate": "黄某某",                                           //公司法人
+        "recruiter_business_license": "http://niukou.api.chengmikeji.com/upload/licence/84/3df60a42f7270b8fc2944d6f8fb2be.jpg",                                         //营业执照
+        "recruiter_status": 1,
+        "verify_time": 0,                                                       //处理时间
+        "addtime": "2019-04-02",                                                //添加日期
+        "user_front_idcard": "http://niukou.api.chengmikeji.com/upload/icard/84/3df60a42f7270b8fc2944d6f8fb2be.jpg",
+        "user_reverse_idcard": "http://niukou.api.chengmikeji.com/upload/icard/84/3df60a42f7270b8fc2944d6f8fb2be.jpg",
+        "industry_name": "运营",                                                  //公司所属行业
+        "log_list": [
+            {
+                "log_status": 1,
+                "log_no": "",
+                "log_remark": "",
+                "log_addtime": "2019-05-06 09:25",
+                "admin_nickname": "admin"
+            }
+        ]
     };
   }
 };

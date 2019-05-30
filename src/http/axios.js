@@ -17,7 +17,7 @@ axiosIns.interceptors.request.use(function(config) {
   let token = window.localStorage.getItem('token')
   let adminInfo = window.localStorage.getItem('adminInfo')
   if (token) {
-    config.headers['token'] = token
+    config.headers['X-Token'] = token
     config.headers['mobile'] =  JSON.parse(adminInfo).userInfo.mobile
   }
   return config
