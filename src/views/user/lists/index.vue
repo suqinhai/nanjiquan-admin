@@ -11,15 +11,18 @@
           <el-input v-model="formInline.user" placeholder="请输入用户名"></el-input>
         </el-form-item>
         <el-form-item label="注册时间">
-          <el-select v-model="formInline.regionTime" placeholder="请选择起止注册时间">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
-          </el-select>
+          <div class="block">
+            <el-date-picker v-model="value1" type="date" placeholder="选择日期"></el-date-picker>
+          </div>
         </el-form-item>
         <el-form-item label="认证状态">
-          <el-select v-model="formInline.status" placeholder="全部">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
+            <el-select v-model="value" placeholder="请选择">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -40,12 +43,19 @@
         <el-table-column prop="user_nickname" label="昵称" width="80"></el-table-column>
         <el-table-column prop="user_avatarar" label="头像" show-overflow-tooltip></el-table-column>
         <el-table-column prop="addtime" label="注册时间" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="user_verified_status" label="南极圈认证" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="user_verified_status" label="南极圈认证" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <p v-if="scope.row.user_verified_status==1">认证成功</p>
+              <p v-if="scope.row.user_verified_status==-1">认证失败</p>
+              <p v-if="scope.row.user_verified_status==2">进行中</p>
+              <p v-if="scope.row.user_verified_status==0">待审核</p>
+            </template>
+        </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button size="mini" type="text" @click="handleEdit(scope.$index, scope.row)">删除</el-button>
-            <el-button size="mini" type="text" @click="handleDelete(scope.$index, scope.row)">查看实名</el-button>
-            <el-button size="mini" type="text" @click="handleDelete(scope.$index, scope.row)">南极圈认证</el-button>
+            <el-button size="mini" type="text" @click="handleDelete(scope.$index, tableData6)">删除</el-button>
+            <el-button size="mini" type="text" @click="handleDetails(scope.$index, scope.row)">查看实名</el-button>
+            <el-button size="mini" type="text" @click="(scope.$index, scope.row)">南极圈认证</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -60,6 +70,24 @@
 export default {
   data() {
     return {
+       options: [
+        {
+          value: 0,
+          label: "待审核"
+        },
+        {
+          value: 1,
+          label: "审核成功"
+        },
+        {
+          value: 2,
+          label: "进行中"
+        },
+        {
+          value: -1,
+          label: "审核失败"
+        }
+      ],
       formInline: {
         user: "",
         regionTime: "",
@@ -140,12 +168,18 @@ export default {
     onReset() {
       console.log("Reset");
     },
-    handleEdit(index, row) {
-      console.log(index, row);
+    //查看详情  跳转
+    handleDetails(index, row) {
+      this.$router.push({
+        path: "/nanjiquanapply/details",
+        query: { apply_id: row.id }
+      });
     },
+
+    // 删除当前行
     handleDelete(index, row) {
-      console.log(index, row);
-    }
+      row.splice(index, 1);
+    },
   }
 };
 </script>

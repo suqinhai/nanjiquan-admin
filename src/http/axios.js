@@ -18,7 +18,7 @@ axiosIns.interceptors.request.use(function(config) {
   let adminInfo = window.localStorage.getItem('adminInfo')
   if (token) {
     config.headers['X-Token'] = token
-    config.headers['mobile'] =  JSON.parse(adminInfo).userInfo.mobile
+    // config.headers['mobile'] =  JSON.parse(adminInfo).userInfo.mobile
   }
   return config
 }, function(error) {

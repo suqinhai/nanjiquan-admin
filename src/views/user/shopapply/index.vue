@@ -4,7 +4,7 @@
       <el-breadcrumb-item :to="{ path: '/User/lists' }">用户管理</el-breadcrumb-item>
       <el-breadcrumb-item>投资机构管理</el-breadcrumb-item>
     </el-breadcrumb>
-    <h4>已认证机构列表</h4>
+    <h4>已认服务商列表</h4>
 
     <div class="conBox">
       <el-form :inline="true" :model="formInline" class="demo-form-inline">
