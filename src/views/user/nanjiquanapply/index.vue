@@ -116,8 +116,10 @@ export default {
     handleDetails(index, row) {
           this.$router.push({path:'/nanjiquanapply/details',query:{apply_id:row.id}})
     },
+
+    // 删除当前行
     handleDelete(index, row) {
-      console.log(index, row);
+          row.splice(index,1);
     },
 
     //全选
