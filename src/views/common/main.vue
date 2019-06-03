@@ -106,7 +106,7 @@
 
 
           </el-menu>
-        </el-col>
+        </el-col>                                                       
 
         <!-- <el-menu :default-active="$route.path" class="el-menu-vertical-demo" @open="handleopen" @close="handleclose" @select="handleselect" unique-opened router v-if="!collapsed">
           <template v-for="(item,index) in menuList" v-if="!item.hidden">
